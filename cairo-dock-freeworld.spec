@@ -4,13 +4,14 @@
 %global	plugin_least_ver	3.4.0
 
 Name:			cairo-dock-freeworld
-Version:		3.4.0 
-Release:		10%{?dist}
+Version:		3.4.1
+Release:		1%{?dist}
 Summary:		Light eye-candy fully themable animated dock
 
 License:		GPLv3+
 URL:			http://glx-dock.org/
-Source0:		http://launchpad.net/cairo-dock-core/%{urlver}/%{mainver}/+download/cairo-dock-%{mainver}.tar.gz
+#Source0:		http://launchpad.net/cairo-dock-core/%{urlver}/%{mainver}/+download/cairo-dock-%{mainver}.tar.gz
+Source0:		https://github.com/Cairo-Dock/cairo-dock-core/archive/%{version}/cairo-dock-%{version}.tar.gz
 Source1:		cairo-dock-freeworld-oldchangelog
 
 BuildRequires:	cmake
@@ -38,7 +39,7 @@ BuildRequires:	pkgconfig(xrandr)
 BuildRequires:	pkgconfig(xrender)
 BuildRequires:	pkgconfig(xtst)
 
-Requires:	cairo-dock%{?_isa} >= %{version}
+Requires:	cairo-dock%{?_isa} = %{version}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
 %description
@@ -52,7 +53,8 @@ Summary:	Library files for %{name}
 This package contains library files for %{name}.
 
 %prep
-%setup -q -n cairo-dock-%{version}
+#%%setup -q -n cairo-dock-%%{version}
+%setup -q -n cairo-dock-core-%{version}
 
 ## permission
 # %%_fixperms cannot fix permissions completely here
@@ -123,6 +125,9 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Fri Mar  6 2015 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.4.1-1
+- 3.4.1
+
 * Wed Mar  4 2015 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.4.0-10
 - Trim down old changelog
 - Remove unneeded BR
