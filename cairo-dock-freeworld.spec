@@ -5,7 +5,7 @@
 
 Name:			cairo-dock-freeworld
 Version:		3.4.1
-Release:		4%{?dist}
+Release:		5%{?dist}
 Summary:		Light eye-candy fully themable animated dock
 
 License:		GPLv3+
@@ -125,6 +125,9 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Thu Jul 26 2018 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 3.4.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
+
 * Wed Feb 28 2018 RPM Fusion Release Engineering <kwizart@rpmfusion.org> - 3.4.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
