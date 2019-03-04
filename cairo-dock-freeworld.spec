@@ -15,7 +15,7 @@ Source0:		https://github.com/Cairo-Dock/cairo-dock-core/archive/%{version}/cairo
 Source1:		cairo-dock-freeworld-oldchangelog
 
 BuildRequires:	cmake
-BuildRequires:	gcc
+BuildRequires:	gcc-c++
 #BuildRequires:	desktop-file-utils
 BuildRequires:	gettext
 BuildRequires:	intltool
