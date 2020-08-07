@@ -75,7 +75,7 @@ sed -i.stat \
 
 %build
 rm -f CMakeCache.txt
-%cmake -DCMAKE_SKIP_RPATH:BOOL=ON .
+%cmake -B . -DCMAKE_SKIP_RPATH:BOOL=ON .
 make -C src/gldit %{?_smp_mflags}
 
 %install
@@ -125,6 +125,9 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Fri Aug  7 2020 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.4.1-9
+- Minor fix for recent cmake invocation change
+
 * Tue Feb 04 2020 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 3.4.1-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
