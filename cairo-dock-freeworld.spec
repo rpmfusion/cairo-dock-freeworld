@@ -5,7 +5,7 @@
 
 Name:			cairo-dock-freeworld
 Version:		3.4.1
-Release:		8%{?dist}
+Release:		9%{?dist}
 Summary:		Light eye-candy fully themable animated dock
 
 License:		GPLv3+
