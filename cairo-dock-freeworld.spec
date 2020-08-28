@@ -52,6 +52,7 @@ Summary:	Library files for %{name}
 %description	libs
 This package contains library files for %{name}.
 
+
 %prep
 #%%setup -q -n cairo-dock-%%{version}
 %setup -q -n cairo-dock-core-%{version}
