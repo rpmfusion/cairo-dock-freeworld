@@ -1,17 +1,28 @@
 %global	urlver		3.4
-%global	mainver	3.4.0
+%global	mainver		3.4.0
 
 %global	plugin_least_ver	3.4.0
 
+%global	use_git	1
+%global	gitdate	20201103
+%global	githash	0836f5d1c3e18be0995320175b8bf21d28264a10
+%global	shorthash	%(c=%{githash} ; echo ${c:0:7})
+
+%global	tarballver	%{mainver}%{?use_git:-%{gitdate}git%{shorthash}}
+%global	mainrel	11
+
 Name:			cairo-dock-freeworld
 Version:		3.4.1
-Release:		10%{?dist}
+Release:		%{mainrel}%{?use_git:.%{gitdate}git%{shorthash}}%{?dist}
 Summary:		Light eye-candy fully themable animated dock
 
 License:		GPLv3+
 URL:			http://glx-dock.org/
-#Source0:		http://launchpad.net/cairo-dock-core/%{urlver}/%{mainver}/+download/cairo-dock-%{mainver}.tar.gz
+%if 0%{?use_git} >= 1
+Source0:		https://github.com/Cairo-Dock/cairo-dock-core/archive/%{githash}/cairo-dock-%{version}-%{gitdate}git%{shorthash}.tar.gz
+%else
 Source0:		https://github.com/Cairo-Dock/cairo-dock-core/archive/%{version}/cairo-dock-%{version}.tar.gz
+%endif
 Source1:		cairo-dock-freeworld-oldchangelog
 
 BuildRequires:	cmake
@@ -54,8 +65,11 @@ This package contains library files for %{name}.
 
 
 %prep
-#%%setup -q -n cairo-dock-%%{version}
+%if 0%{?use_git} >= 1
+%setup -q -n cairo-dock-core-%{githash}
+%else
 %setup -q -n cairo-dock-core-%{version}
+%endif
 
 ## permission
 # %%_fixperms cannot fix permissions completely here
@@ -73,6 +87,9 @@ sed -i.debuglevel \
 sed -i.stat \
 	-e 's|\${MSGFMT_EXECUTABLE}|\${MSGFMT_EXECUTABLE} --statistics|' \
 	po/CMakeLists.txt
+
+# Modify version forcely
+sed -i CMakeLists.txt -e '\@set (VERSION @s|VERSION.*|VERSION "%{version}")|'
 
 %build
 rm -f CMakeCache.txt
@@ -126,6 +143,9 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Sun Jan  3 2021 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.4.1-11.20201103git0836f5d
+- Update to the latest git
+
 * Mon Aug 17 2020 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 3.4.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 
