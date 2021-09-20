@@ -1,7 +1,7 @@
-%global	urlver		3.4
-%global	mainver		3.4.0
+%global	urlver	3.4
+%global	mainver	3.4.1
 
-%global	plugin_least_ver	3.4.0
+%global	plugin_least_ver	3.4.1
 
 %global	use_git	1
 %global	gitdate	20210327
@@ -9,11 +9,24 @@
 %global	shorthash	%(c=%{githash} ; echo ${c:0:7})
 
 %global	tarballver	%{mainver}%{?use_git:-%{gitdate}git%{shorthash}}
-%global	mainrel	12
+
+%global	mainrel	13
+
+%undefine _ld_strict_symbol_defs
+%undefine __brp_mangle_shebangs
+
+##########################################
+%global		flagrel	%{nil}
+%global		use_gcc_strict_sanitize	0
+
+%if	0%{?use_gcc_strict_sanitize} >= 1
+%global		flagrel	%{flagrel}.san
+%endif
+##########################################
 
 Name:			cairo-dock-freeworld
 Version:		3.4.1
-Release:		%{mainrel}%{?use_git:.D%{gitdate}git%{shorthash}}%{?dist}.1
+Release:		%{mainrel}%{?use_git:.D%{gitdate}git%{shorthash}}%{?dist}%{flagrel}
 Summary:		Light eye-candy fully themable animated dock
 
 License:		GPLv3+
@@ -24,9 +37,19 @@ Source0:		https://github.com/Cairo-Dock/cairo-dock-core/archive/%{githash}/cairo
 Source0:		https://github.com/Cairo-Dock/cairo-dock-core/archive/%{version}/cairo-dock-%{version}.tar.gz
 %endif
 Source1:		cairo-dock-freeworld-oldchangelog
+# wayland-manager: allocate new wl_output information by checking id
+# https://bugzilla.redhat.com/show_bug.cgi?id=2000812
+# https://github.com/Cairo-Dock/cairo-dock-core/pull/12
+Patch1:		0001-LP1943052-wayland-manager-allocate-new-wl_output-inf.patch
 
-BuildRequires:	cmake
-BuildRequires:	gcc-c++
+BuildRequires:  gcc
+BuildRequires:  gcc-c++
+BuildRequires:  cmake
+%if 0%{?use_gcc_strict_sanitize}
+BuildRequires:  libasan
+BuildRequires:  libubsan
+%endif
+
 #BuildRequires:	desktop-file-utils
 BuildRequires:	gettext
 BuildRequires:	intltool
@@ -34,6 +57,7 @@ BuildRequires:	intltool
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(dbus-glib-1)
+#BuildRequires:	pkgconfig(egl)
 BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(glu)
@@ -66,9 +90,9 @@ This package contains library files for %{name}.
 
 %prep
 %if 0%{?use_git} >= 1
-%setup -q -n cairo-dock-core-%{githash}
+%autosetup -n cairo-dock-core-%{githash} -p1
 %else
-%setup -q -n cairo-dock-core-%{version}
+%autosetup -n cairo-dock-core-%{version} -p1
 %endif
 
 ## permission
@@ -92,8 +116,27 @@ sed -i.stat \
 sed -i CMakeLists.txt -e '\@set (VERSION @s|VERSION.*|VERSION "%{version}")|'
 
 %build
+%set_build_flags
+
+%if 0%{?use_gcc_strict_sanitize}
+export CC="${CC} -fsanitize=address -fsanitize=undefined"
+export CXX="${CXX} -fsanitize=address -fsanitize=undefined"
+export LDFLAGS="${LDFLAGS} -pthread"
+
+# Currently -fPIE binary cannot work with ASAN on kernel 4.12
+# https://github.com/google/sanitizers/issues/837
+export CFLAGS="$(echo $CFLAGS     | sed -e 's|-specs=[^ \t][^ \t]*hardened[^ \t][^ \t]*||g')"
+export CXXFLAGS="$(echo $CXXFLAGS | sed -e 's|-specs=[^ \t][^ \t]*hardened[^ \t][^ \t]*||g')"
+export LDFLAGS="$(echo $LDFLAGS   | sed -e 's|-specs=[^ \t][^ \t]*hardened[^ \t][^ \t]*||g')"
+%endif
+
 rm -f CMakeCache.txt
-%cmake -B . -DCMAKE_SKIP_RPATH:BOOL=ON .
+%cmake \
+	-B . \
+	-DCMAKE_SKIP_RPATH:BOOL=ON \
+	-Denable-egl-support:BOOL=OFF \
+	. \
+	%{nil}
 make -C src/gldit %{?_smp_mflags}
 
 %install
@@ -143,6 +186,11 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Mon Sep 20 2021 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.4.1-13.D20210327git6c569e6
+- wayland-manager: allocate new wl_output information by checking id
+  (Fix segfault on KDE Plasma wayland session: redhat bug 2000812)
+- Explicitly disable EGL support for now
+
 * Mon Aug 02 2021 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 3.4.1-12.D20210327git6c569e6.1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 
