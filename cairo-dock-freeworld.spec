@@ -26,7 +26,7 @@
 
 Name:			cairo-dock-freeworld
 Version:		3.4.1
-Release:		%{mainrel}%{?use_git:.D%{gitdate}git%{shorthash}}%{?dist}%{flagrel}
+Release:		%{mainrel}%{?use_git:.D%{gitdate}git%{shorthash}}%{?dist}%{flagrel}.1
 Summary:		Light eye-candy fully themable animated dock
 
 License:		GPLv3+
@@ -186,6 +186,9 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Wed Feb 09 2022 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 3.4.1-13.D20210327git6c569e6.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
+
 * Mon Sep 20 2021 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.4.1-13.D20210327git6c569e6
 - wayland-manager: allocate new wl_output information by checking id
   (Fix segfault on KDE Plasma wayland session: redhat bug 2000812)
