@@ -10,7 +10,7 @@
 
 %global	tarballver	%{mainver}%{?use_git:-%{gitdate}git%{shorthash}}
 
-%global	mainrel	13
+%global	baserelease	14
 
 %undefine _ld_strict_symbol_defs
 %undefine __brp_mangle_shebangs
@@ -26,7 +26,7 @@
 
 Name:			cairo-dock-freeworld
 Version:		3.4.1
-Release:		%{mainrel}%{?use_git:.D%{gitdate}git%{shorthash}}%{?dist}%{flagrel}.3
+Release:		%{baserelease}%{?use_git:.D%{gitdate}git%{shorthash}}%{?dist}%{flagrel}
 Summary:		Light eye-candy fully themable animated dock
 
 License:		GPLv3+
@@ -99,7 +99,7 @@ This package contains library files for %{name}.
 # %%_fixperms cannot fix permissions completely here
 for dir in */
 do
-	find $dir -type f | xargs chmod 0644
+	find $dir -type f | xargs -r chmod 0644
 done
 chmod 0644 [A-Z]*
 chmod 0755 */
@@ -186,6 +186,9 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Wed Aug 02 2023 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.4.1-14.D20210327git6c569e6
+- Pass -r option to xargs because new rpm creates empty directory
+
 * Wed Aug 02 2023 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 3.4.1-13.D20210327git6c569e6.3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_39_Mass_Rebuild
 
