@@ -10,7 +10,7 @@
 
 %global	tarballver	%{mainver}%{?use_git:-%{gitdate}git%{shorthash}}
 
-%global	baserelease	14
+%global	baserelease	15
 
 %undefine _ld_strict_symbol_defs
 %undefine __brp_mangle_shebangs
@@ -186,6 +186,9 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Sat Feb 03 2024 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 3.4.1-15.D20210327git6c569e6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_40_Mass_Rebuild
+
 * Wed Aug 02 2023 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.4.1-14.D20210327git6c569e6
 - Pass -r option to xargs because new rpm creates empty directory
 
