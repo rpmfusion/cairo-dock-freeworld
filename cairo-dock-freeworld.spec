@@ -1,16 +1,16 @@
-%global	urlver	3.4
-%global	mainver	3.4.1
+%global	urlver	3.5
+%global	mainver	3.5.0
 
-%global	plugin_least_ver	3.4.1
+%global	plugin_least_ver	3.5.0
 
-%global	use_git	1
+#%%global	use_git	1
 %global	gitdate	20210327
 %global	githash	6c569e67a2a366e7634224a0133ede51755629cb
 %global	shorthash	%(c=%{githash} ; echo ${c:0:7})
 
 %global	tarballver	%{mainver}%{?use_git:-%{gitdate}git%{shorthash}}
 
-%global	baserelease	15
+%global	baserelease	1
 
 %undefine _ld_strict_symbol_defs
 %undefine __brp_mangle_shebangs
@@ -25,8 +25,8 @@
 ##########################################
 
 Name:			cairo-dock-freeworld
-Version:		3.4.1
-Release:		%{baserelease}%{?use_git:.D%{gitdate}git%{shorthash}}%{?dist}%{flagrel}
+Version:		%{mainver}%{?use_git:^%{gitdate}git%{shorthash}}
+Release:		%{baserelease}%{?dist}%{flagrel}
 Summary:		Light eye-candy fully themable animated dock
 
 License:		GPLv3+
@@ -34,7 +34,7 @@ URL:			http://glx-dock.org/
 %if 0%{?use_git} >= 1
 Source0:		https://github.com/Cairo-Dock/cairo-dock-core/archive/%{githash}/cairo-dock-%{version}-%{gitdate}git%{shorthash}.tar.gz
 %else
-Source0:		https://github.com/Cairo-Dock/cairo-dock-core/archive/%{version}/cairo-dock-%{version}.tar.gz
+Source0:		https://github.com/Cairo-Dock/cairo-dock-core/archive/%{version}/cairo-dock-%{mainver}.tar.gz
 %endif
 Source1:		cairo-dock-freeworld-oldchangelog
 # wayland-manager: allocate new wl_output information by checking id
@@ -92,7 +92,7 @@ This package contains library files for %{name}.
 %if 0%{?use_git} >= 1
 %autosetup -n cairo-dock-core-%{githash} -p1
 %else
-%autosetup -n cairo-dock-core-%{version} -p1
+%autosetup -n cairo-dock-core-%{mainver} -p1
 %endif
 
 ## permission
@@ -172,8 +172,7 @@ install -cpm 644 \
 	licenses/
 
 
-%post libs -p /sbin/ldconfig
-%postun libs -p /sbin/ldconfig
+%ldconfig_scriptlets libs
 
 %files
 
@@ -186,6 +185,9 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Mon Feb 26 2024 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.0-1
+- Update to 3.5.0
+
 * Sat Feb 03 2024 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 3.4.1-15.D20210327git6c569e6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_40_Mass_Rebuild
 
