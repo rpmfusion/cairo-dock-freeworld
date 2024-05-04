@@ -1,11 +1,11 @@
 %global	urlver	3.5
-%global	mainver	3.5.0
+%global	mainver	3.5.99
 
-%global	plugin_least_ver	3.5.0
+%global	plugin_least_ver	3.5.99
 
-#%%global	use_git	1
-%global	gitdate	20210327
-%global	githash	6c569e67a2a366e7634224a0133ede51755629cb
+%global	use_git	1
+%global	gitdate	20240501
+%global	githash	1f316862d9d4d28e11283d67a79724ce94e93280
 %global	shorthash	%(c=%{githash} ; echo ${c:0:7})
 
 %global	tarballver	%{mainver}%{?use_git:-%{gitdate}git%{shorthash}}
@@ -32,19 +32,21 @@ Summary:		Light eye-candy fully themable animated dock
 License:		GPLv3+
 URL:			http://glx-dock.org/
 %if 0%{?use_git} >= 1
-Source0:		https://github.com/Cairo-Dock/cairo-dock-core/archive/%{githash}/cairo-dock-%{version}-%{gitdate}git%{shorthash}.tar.gz
+Source0:		https://github.com/Cairo-Dock/cairo-dock-core/archive/%{githash}/cairo-dock-%{mainver}-%{gitdate}git%{shorthash}.tar.gz
 %else
 Source0:		https://github.com/Cairo-Dock/cairo-dock-core/archive/%{version}/cairo-dock-%{mainver}.tar.gz
 %endif
 Source1:		cairo-dock-freeworld-oldchangelog
-# wayland-manager: allocate new wl_output information by checking id
-# https://bugzilla.redhat.com/show_bug.cgi?id=2000812
-# https://github.com/Cairo-Dock/cairo-dock-core/pull/12
-Patch1:		0001-LP1943052-wayland-manager-allocate-new-wl_output-inf.patch
+# https://github.com/Cairo-Dock/cairo-dock-core/issues/20
+# https://github.com/Cairo-Dock/cairo-dock-core/pull/21
+# Some symbols in cairo-dock binary is needed by libcd-Help.so
+Patch1:		cairo-dock-core-pr21-export-symbols.patch
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  cmake
+BuildRequires:  extra-cmake-modules
+BuildRequires:  systemd-rpm-macros
 %if 0%{?use_gcc_strict_sanitize}
 BuildRequires:  libasan
 BuildRequires:  libubsan
@@ -62,10 +64,12 @@ BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(glu)
 BuildRequires:	pkgconfig(gthread-2.0)
+BuildRequires:	pkgconfig(gtk-layer-shell-0)
 BuildRequires:	pkgconfig(gtk+-3.0)
 BuildRequires:	pkgconfig(libcurl)
 BuildRequires:	pkgconfig(librsvg-2.0)
 BuildRequires:	pkgconfig(libxml-2.0)
+BuildRequires:	pkgconfig(systemd)
 BuildRequires:	pkgconfig(wayland-client)
 BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xcomposite)
@@ -74,7 +78,7 @@ BuildRequires:	pkgconfig(xrandr)
 BuildRequires:	pkgconfig(xrender)
 BuildRequires:	pkgconfig(xtst)
 
-Requires:	cairo-dock%{?_isa} = %{version}
+Requires:	cairo-dock%{?_isa} >= %{mainver}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
 %description
@@ -113,7 +117,7 @@ sed -i.stat \
 	po/CMakeLists.txt
 
 # Modify version forcely
-sed -i CMakeLists.txt -e '\@set (VERSION @s|VERSION.*|VERSION "%{version}")|'
+sed -i CMakeLists.txt -e '\@set (VERSION @s|VERSION.*|VERSION "%{mainver}")|'
 
 %build
 %set_build_flags
@@ -134,8 +138,7 @@ rm -f CMakeCache.txt
 %cmake \
 	-B . \
 	-DCMAKE_SKIP_RPATH:BOOL=ON \
-	-Denable-egl-support:BOOL=OFF \
-	. \
+	-Denable-egl-support:BOOL=ON \
 	%{nil}
 make -C src/gldit %{?_smp_mflags}
 
@@ -185,6 +188,9 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Sat May 04 2024 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20240501git1f31686-1
+- Update to latest git (20240501git1f31686)
+
 * Mon Feb 26 2024 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.0-1
 - Update to 3.5.0
 
