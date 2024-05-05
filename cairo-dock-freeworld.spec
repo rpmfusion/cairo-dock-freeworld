@@ -4,8 +4,8 @@
 %global	plugin_least_ver	3.5.99
 
 %global	use_git	1
-%global	gitdate	20240501
-%global	githash	1f316862d9d4d28e11283d67a79724ce94e93280
+%global	gitdate	20240505
+%global	githash	13fb1516bc269debe7d7dfc1c67aae7acde27423
 %global	shorthash	%(c=%{githash} ; echo ${c:0:7})
 
 %global	tarballver	%{mainver}%{?use_git:-%{gitdate}git%{shorthash}}
@@ -37,10 +37,6 @@ Source0:		https://github.com/Cairo-Dock/cairo-dock-core/archive/%{githash}/cairo
 Source0:		https://github.com/Cairo-Dock/cairo-dock-core/archive/%{version}/cairo-dock-%{mainver}.tar.gz
 %endif
 Source1:		cairo-dock-freeworld-oldchangelog
-# https://github.com/Cairo-Dock/cairo-dock-core/issues/20
-# https://github.com/Cairo-Dock/cairo-dock-core/pull/21
-# Some symbols in cairo-dock binary is needed by libcd-Help.so
-Patch1:		cairo-dock-core-pr21-export-symbols.patch
 
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
@@ -69,6 +65,7 @@ BuildRequires:	pkgconfig(gtk+-3.0)
 BuildRequires:	pkgconfig(libcurl)
 BuildRequires:	pkgconfig(librsvg-2.0)
 BuildRequires:	pkgconfig(libxml-2.0)
+BuildRequires:	pkgconfig(nlohmann_json)
 BuildRequires:	pkgconfig(systemd)
 BuildRequires:	pkgconfig(wayland-client)
 BuildRequires:	pkgconfig(x11)
@@ -188,6 +185,10 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Sun May 05 2024 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20240505git13fb151-1
+- Update to the latest git (20240505git13fb151)
+- Enable Wayfire IPC support
+
 * Sat May 04 2024 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20240501git1f31686-1
 - Update to latest git (20240501git1f31686)
 
