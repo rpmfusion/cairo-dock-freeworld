@@ -10,7 +10,7 @@
 
 %global	tarballver	%{mainver}%{?use_git:-%{gitdate}git%{shorthash}}
 
-%global	baserelease	1
+%global	baserelease	2
 
 %undefine _ld_strict_symbol_defs
 %undefine __brp_mangle_shebangs
@@ -185,6 +185,9 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Thu Aug 01 2024 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 3.5.99^20240505git13fb151-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_41_Mass_Rebuild
+
 * Sun May 05 2024 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20240505git13fb151-1
 - Update to the latest git (20240505git13fb151)
 - Enable Wayfire IPC support
