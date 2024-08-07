@@ -4,13 +4,13 @@
 %global	plugin_least_ver	3.5.99
 
 %global	use_git	1
-%global	gitdate	20240505
-%global	githash	13fb1516bc269debe7d7dfc1c67aae7acde27423
+%global	gitdate	20240805
+%global	githash	23c0be5409ce2bc121956b567e5bd7db1d6c7a0b
 %global	shorthash	%(c=%{githash} ; echo ${c:0:7})
 
 %global	tarballver	%{mainver}%{?use_git:-%{gitdate}git%{shorthash}}
 
-%global	baserelease	2
+%global	baserelease	1
 
 %undefine _ld_strict_symbol_defs
 %undefine __brp_mangle_shebangs
@@ -185,6 +185,9 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Wed Aug 07 2024 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20240805git23c0be5-1
+- Update to the latest git (20240805git23c0be5)
+
 * Thu Aug 01 2024 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 3.5.99^20240505git13fb151-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_41_Mass_Rebuild
 
