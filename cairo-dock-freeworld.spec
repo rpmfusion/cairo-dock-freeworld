@@ -4,8 +4,8 @@
 %global	plugin_least_ver	3.5.99
 
 %global	use_git	1
-%global	gitdate	20240926
-%global	githash	7b3ac7fa3e367174c80e758856e19e8c0435995e
+%global	gitdate	20241007
+%global	githash	2149e52be177f4a28652453331d92d6ce7fc3174
 %global	shorthash	%(c=%{githash} ; echo ${c:0:7})
 
 %global	tarballver	%{mainver}%{?use_git:-%{gitdate}git%{shorthash}}
@@ -25,7 +25,7 @@
 ##########################################
 
 Name:			cairo-dock-freeworld
-Version:		%{mainver}%{?use_git:^%{gitdate}git%{shorthash}}
+Version:		%{mainver}%{?use_git:^%{gitdate}.1git%{shorthash}}
 Release:		%{baserelease}%{?dist}%{flagrel}
 Summary:		Light eye-candy fully themable animated dock
 
@@ -185,6 +185,9 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Sun Oct 06 2024 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20241007.1git2149e52-1
+- Update to the latest git (20241007git2149e52)
+
 * Thu Sep 26 2024 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20240926git7b3ac7f-1
 - Update to the latest git (20240926git7b3ac7f)
 
