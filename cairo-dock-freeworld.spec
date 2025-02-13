@@ -4,8 +4,8 @@
 %global	plugin_least_ver	3.5.99
 
 %global	use_git	1
-%global	gitdate	20250120
-%global	githash	d2fd78961932a22af70219d7e223aa17c055e406
+%global	gitdate	20250211
+%global	githash	443d8da7de72d85fe6401c47788f67ab37d97b16
 %global	shorthash	%(c=%{githash} ; echo ${c:0:7})
 
 %global	tarballver	%{mainver}%{?use_git:-%{gitdate}git%{shorthash}}
@@ -68,6 +68,7 @@ BuildRequires:	pkgconfig(librsvg-2.0)
 BuildRequires:	pkgconfig(libxml-2.0)
 BuildRequires:	pkgconfig(nlohmann_json)
 BuildRequires:	pkgconfig(systemd)
+BuildRequires:	pkgconfig(wayland-egl)
 BuildRequires:	pkgconfig(wayland-client)
 BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xcomposite)
@@ -186,6 +187,9 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Thu Feb 13 2025 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20250211git443d8da-1.rc1
+- Update to the latest git (20250211git443d8da)
+
 * Thu Jan 30 2025 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20250120gitd2fd789-1.rc1
 - Update to the latest git (20250120gitd2fd789)
 
