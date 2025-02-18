@@ -4,8 +4,8 @@
 %global	plugin_least_ver	3.5.99
 
 %global	use_git	1
-%global	gitdate	20250214
-%global	githash	ddcff9ea6cfee0556909f1a48a968c5c649e68ce
+%global	gitdate	20250218
+%global	githash	77bc3883bad11c765c273790384ce1c3ee92e4b7
 %global	shorthash	%(c=%{githash} ; echo ${c:0:7})
 
 %global	tarballver	%{mainver}%{?use_git:-%{gitdate}git%{shorthash}}
@@ -118,6 +118,9 @@ sed -i.stat \
 # Modify version forcely
 sed -i CMakeLists.txt -e '\@set (VERSION @s|VERSION.*|VERSION "%{mainver}")|'
 
+# Don't set rpath
+sed -i CMakeLists.txt -e '\@APPEND.*CMAKE_INSTALL_RPATH@d'
+
 %build
 %set_build_flags
 
@@ -187,6 +190,9 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Tue Feb 18 2025 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20250218git77bc388-1.rc2
+- Update to the latest git (20250218git77bc388)
+
 * Fri Feb 14 2025 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20250214gitddcff9e-1.rc2
 - Update to the latest git (20250214gitddcff9e)
 
