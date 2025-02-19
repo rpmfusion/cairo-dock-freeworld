@@ -10,7 +10,7 @@
 
 %global	tarballver	%{mainver}%{?use_git:-%{gitdate}git%{shorthash}}
 
-%global	baserelease	1
+%global	baserelease	1.100
 %global	alphatag		.rc2
 
 %undefine _ld_strict_symbol_defs
