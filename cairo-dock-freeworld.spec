@@ -10,7 +10,7 @@
 
 %global	tarballver	%{mainver}%{?use_git:-%{gitdate}git%{shorthash}}
 
-%global	baserelease	1
+%global	baserelease	2
 %global	alphatag		.rc2
 
 %undefine _ld_strict_symbol_defs
@@ -63,10 +63,10 @@ BuildRequires:	pkgconfig(glu)
 BuildRequires:	pkgconfig(gthread-2.0)
 BuildRequires:	pkgconfig(gtk-layer-shell-0)
 BuildRequires:	pkgconfig(gtk+-3.0)
+BuildRequires:	pkgconfig(json-c)
 BuildRequires:	pkgconfig(libcurl)
 BuildRequires:	pkgconfig(librsvg-2.0)
 BuildRequires:	pkgconfig(libxml-2.0)
-BuildRequires:	pkgconfig(nlohmann_json)
 BuildRequires:	pkgconfig(systemd)
 BuildRequires:	pkgconfig(wayland-egl)
 BuildRequires:	pkgconfig(wayland-client)
@@ -190,6 +190,9 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Sun Feb 23 2025 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20250218git77bc388-2.rc2
+- Modify BR for Wayfire IPC support
+
 * Tue Feb 18 2025 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20250218git77bc388-1.rc2
 - Update to the latest git (20250218git77bc388)
 
