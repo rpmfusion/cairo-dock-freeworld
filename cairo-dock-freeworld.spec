@@ -4,13 +4,13 @@
 %global	plugin_least_ver	3.5.99
 
 %global	use_git	1
-%global	gitdate	20250218
-%global	githash	77bc3883bad11c765c273790384ce1c3ee92e4b7
+%global	gitdate	20250223
+%global	githash	e2c28d13ac1940fbe4a5439cb9433b69008b21be
 %global	shorthash	%(c=%{githash} ; echo ${c:0:7})
 
 %global	tarballver	%{mainver}%{?use_git:-%{gitdate}git%{shorthash}}
 
-%global	baserelease	2
+%global	baserelease	1
 %global	alphatag		.rc2
 
 %undefine _ld_strict_symbol_defs
@@ -190,6 +190,9 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Sun Mar 02 2025 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20250223gite2c28d1-1.rc2
+- Update to the latest git (20250223gite2c28d1)
+
 * Sun Feb 23 2025 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20250218git77bc388-2.rc2
 - Modify BR for Wayfire IPC support
 
