@@ -4,8 +4,8 @@
 %global	plugin_least_ver	3.5.99
 
 %global	use_git	1
-%global	gitdate	20250223
-%global	githash	e2c28d13ac1940fbe4a5439cb9433b69008b21be
+%global	gitdate	20250309
+%global	githash	a77d61b70fb060d2dbd9b7615d90a77295b36600
 %global	shorthash	%(c=%{githash} ; echo ${c:0:7})
 
 %global	tarballver	%{mainver}%{?use_git:-%{gitdate}git%{shorthash}}
@@ -190,6 +190,9 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Thu Mar 13 2025 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20250309gita77d61b-1.rc2
+- Update to the latest git (20250309gita77d61b)
+
 * Sun Mar 02 2025 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20250223gite2c28d1-1.rc2
 - Update to the latest git (20250223gite2c28d1)
 
