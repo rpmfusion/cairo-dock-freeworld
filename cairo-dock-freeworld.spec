@@ -1,7 +1,7 @@
 %global	urlver	3.5
-%global	mainver	3.5.1
+%global	mainver	3.5.2
 
-%global	plugin_least_ver	3.5.1
+%global	plugin_least_ver	3.5.2
 
 #%%global	use_git	1
 %global	gitdate	20210327
@@ -185,6 +185,9 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Fri Mar 14 2025 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.2-1
+- 3.5.2
+
 * Sun Sep 22 2024 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.1-1
 - Update to 3.5.1
 
