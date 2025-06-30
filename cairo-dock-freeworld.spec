@@ -191,7 +191,7 @@ install -cpm 644 \
 
 %changelog
 * Mon Jun 30 2025 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20250618git89864a0-1.rc2
-- Update to the latest git (20250623git6b5d476)
+- Update to the latest git (20250618git89864a0)
 
 * Thu Mar 13 2025 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20250309gita77d61b-1.rc2
 - Update to the latest git (20250309gita77d61b)
