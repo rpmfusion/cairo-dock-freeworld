@@ -4,8 +4,8 @@
 %global	plugin_least_ver	3.5.99
 
 %global	use_git	1
-%global	gitdate	20250714
-%global	githash	e852048b22efc746c095f4fad19e0973fb836a3d
+%global	gitdate	20250716
+%global	githash	033945cc4ec48746f5df80fc3ccab0595e410d85
 %global	shorthash	%(c=%{githash} ; echo ${c:0:7})
 
 %global	tarballver	%{mainver}%{?use_git:-%{gitdate}git%{shorthash}}
@@ -138,17 +138,23 @@ export LDFLAGS="$(echo $LDFLAGS   | sed -e 's|-specs=[^ \t][^ \t]*hardened[^ \t]
 
 rm -f CMakeCache.txt
 %cmake \
-	-B . \
 	-DCMAKE_SKIP_RPATH:BOOL=ON \
 	-Denable-egl-support:BOOL=ON \
 	%{nil}
-make -C src/gldit %{?_smp_mflags}
+
+%global __cmake_builddir %{_vpath_builddir}/src/gldit
+%cmake_build
 
 %install
 rm -rf TMPINSTDIR
-make  -C src/gldit\
-	install \
-	DESTDIR=$(pwd)/TMPINSTDIR
+
+%global __cmake_builddir %{_vpath_builddir}/src/gldit
+%global buildroot_orig %buildroot
+%global buildroot $(pwd)/TMPINSTDIR
+%cmake_install
+
+%global buildroot %buildroot_orig
+
 chmod 0755 TMPINSTDIR/%{_libdir}/lib*.so.*
 
 mkdir -p $RPM_BUILD_ROOT/%{_libdir}/%{name}
@@ -190,6 +196,9 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Wed Jul 23 2025 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20250716git033945c-1.rc6
+- Update to the latest git (20250716git033945c)
+
 * Mon Jul 14 2025 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20250714gite852048-1.rc6
 - Update to the latest git (20250714gite852048)
 
