@@ -10,7 +10,7 @@
 
 %global	tarballver	%{mainver}%{?use_git:-%{gitdate}git%{shorthash}}
 
-%global	baserelease	1
+%global	baserelease	2
 %global	alphatag		.rc6
 
 %undefine _ld_strict_symbol_defs
@@ -77,7 +77,7 @@ BuildRequires:	pkgconfig(xrandr)
 BuildRequires:	pkgconfig(xrender)
 BuildRequires:	pkgconfig(xtst)
 
-Requires:	cairo-dock%{?_isa} >= %{version}
+Requires:	cairo-dock%{?_isa} = %{version}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
 %description
@@ -86,6 +86,7 @@ related to cairo-dock-freeworld.
 
 %package	libs
 Summary:	Library files for %{name}
+Requires:	cairo-dock-libs%{?_isa} = %{version}
 
 %description	libs
 This package contains library files for %{name}.
@@ -196,6 +197,9 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Tue Jul 29 2025 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20250716git033945c-2.rc6
+- Make Requires for non-freeworld more strict
+
 * Wed Jul 23 2025 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20250716git033945c-1.rc6
 - Update to the latest git (20250716git033945c)
 
