@@ -4,14 +4,14 @@
 %global	plugin_least_ver	3.5.99
 
 %global	use_git	1
-%global	gitdate	20250716
-%global	githash	033945cc4ec48746f5df80fc3ccab0595e410d85
+%global	gitdate	20250729
+%global	githash	c86686d16925052015ae45b5677ca611aa8ec13c
 %global	shorthash	%(c=%{githash} ; echo ${c:0:7})
 
 %global	tarballver	%{mainver}%{?use_git:-%{gitdate}git%{shorthash}}
 
-%global	baserelease	2
-%global	alphatag		.rc6
+%global	baserelease	1
+%global	alphatag		.rc7
 
 %undefine _ld_strict_symbol_defs
 %undefine __brp_mangle_shebangs
@@ -197,6 +197,9 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Tue Jul 29 2025 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20250729gitc86686d-1.rc7
+- Update to the latest git (20250729gitc86686d)
+
 * Tue Jul 29 2025 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20250716git033945c-2.rc6
 - Make Requires for non-freeworld more strict
 
