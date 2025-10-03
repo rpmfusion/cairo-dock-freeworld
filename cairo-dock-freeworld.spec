@@ -1,9 +1,9 @@
-%global	urlver	3.5
-%global	mainver	3.5.99
+%global	urlver	3.6
+%global	mainver	3.6.0
 
-%global	plugin_least_ver	3.5.99
+%global	plugin_least_ver	3.6.0
 
-%global	use_git	1
+%dnl %global	use_git	1
 %global	gitdate	20250922
 %global	githash	bbdf30b67241dbf61dea651b636a07da5cc39049
 %global	shorthash	%(c=%{githash} ; echo ${c:0:7})
@@ -11,7 +11,7 @@
 %global	tarballver	%{mainver}%{?use_git:-%{gitdate}git%{shorthash}}
 
 %global	baserelease	1
-%global	alphatag		.rcb
+%dnl %global	alphatag		.rcb
 
 %undefine _ld_strict_symbol_defs
 %undefine __brp_mangle_shebangs
@@ -117,7 +117,9 @@ sed -i.stat \
 	po/CMakeLists.txt
 
 # Modify version forcely
+%if 0%{?use_git}
 sed -i CMakeLists.txt -e '\@set (VERSION @s|VERSION.*|VERSION "%{mainver}")|'
+%endif
 
 # Don't set rpath
 sed -i CMakeLists.txt -e '\@APPEND.*CMAKE_INSTALL_RPATH@d'
@@ -197,6 +199,9 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Wed Oct 01 2025 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.6.0-1
+- 3.6.0
+
 * Wed Sep 24 2025 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.5.99^20250922gitbbdf30b-1.rcb
 - Update to the latest git (20250922gitbbdf30b)
 
