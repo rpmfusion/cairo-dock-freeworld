@@ -1,5 +1,5 @@
 %global	urlver	3.6
-%global	mainver	3.6.0
+%global	mainver	3.6.1
 
 %global	plugin_least_ver	3.6.0
 
@@ -199,6 +199,9 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Tue Nov 04 2025 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.6.1-1
+- 3.6.1
+
 * Wed Oct 01 2025 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.6.0-1
 - 3.6.0
 
