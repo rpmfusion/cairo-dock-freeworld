@@ -10,7 +10,7 @@
 
 %global	tarballver	%{mainver}%{?use_git:-%{gitdate}git%{shorthash}}
 
-%global	baserelease	3
+%global	baserelease	4
 %dnl %global	alphatag		.rcb
 
 %undefine _ld_strict_symbol_defs
@@ -145,16 +145,25 @@ rm -f CMakeCache.txt
 	-Denable-egl-support:BOOL=ON \
 	%{nil}
 
+%if 0%{?fedora} >= 44
+ninja-build -v -j %_smp_build_ncpus -C redhat-linux-build/ src/gldit/all -k 0
+%else
 %global __cmake_builddir %{_vpath_builddir}/src/gldit
 %cmake_build
+%endif
 
 %install
 rm -rf TMPINSTDIR
 
-%global __cmake_builddir %{_vpath_builddir}/src/gldit
 %global buildroot_orig %buildroot
 %global buildroot $(pwd)/TMPINSTDIR
+%if 0%{?fedora} >= 44
+env DESTDIR=%buildroot \
+	ninja -v -C redhat-linux-build/ src/gldit/install
+%else
+%global __cmake_builddir %{_vpath_builddir}/src/gldit
 %cmake_install
+%endif
 
 %global buildroot %buildroot_orig
 
@@ -199,6 +208,9 @@ install -cpm 644 \
 %{_libdir}/%{name}/libgldi.so.3*
 
 %changelog
+* Tue Aug 04 2026 Mamoru TASAKA <mtasaka@fedoraproject.org> - 3.6.2-4
+- Fix build with ninja based cmake 4
+
 * Sun Aug 02 2026 RPM Fusion Release Engineering <leigh123linux@rpmfusion.org> - 3.6.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_45_Mass_Rebuild
 
